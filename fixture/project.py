@@ -38,6 +38,8 @@ class ProjectHelper:
         wd.find_element_by_xpath(u"//input[@value='Удалить проект']").click()
 
 
+
+
     def open_project_page(self):
         wd = self.app.wd
         wd.find_element_by_link_text(u"Управление").click()

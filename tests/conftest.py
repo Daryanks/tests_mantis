@@ -14,15 +14,18 @@ def load_config(file):
             target = json.load(f)
     return target
 
+
 @pytest.fixture(autouse=True)
-def app(request):
+def config(request):
+    return load_config(request.config.getoption("--target"))
+
+@pytest.fixture(autouse=True)
+def app(request, config):
     global fixture
     browser = request.config.getoption("--browser")
-    web_config = load_config(request.config.getoption("--target"))['web']
-    web_admin = load_config(request.config.getoption("--target"))['webadmin']
     if fixture is None or not fixture.is_valid:
-        fixture = Application(browser=browser, base_url=web_config['baseUrl'])
-    fixture.session.login(web_admin['username'], web_admin['password'])
+        fixture = Application(browser=browser, config=config)
+    fixture.session.login(config['webadmin']['username'], config['webadmin']['password'])
     return fixture
 
 @pytest.fixture(scope="session", autouse=True)

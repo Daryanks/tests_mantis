@@ -2,9 +2,9 @@ from model.project import Project
 
 
 def test_add_project(app):
-    projects = app.project.get_projects_list()
-    project = Project(name="Test3")
+    projects = app.soap.get_list_project()
+    project = Project(name="Test5")
     app.project.create(project)
-    new_projects = app.project.get_projects_list()
+    new_projects = app.soap.get_list_project()
     projects.append(project)
-    assert sorted(projects, key=Project.id_or_max) == sorted(new_projects, key=Project.id_or_max)
+    assert projects == new_projects
