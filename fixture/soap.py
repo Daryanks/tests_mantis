@@ -19,7 +19,8 @@ class SoapHelper:
 
     def get_list_project(self):
         soap_config = self.app.config['webadmin']
-        client = Client("http://localhost/mantisbt-2.27.1/api/soap/mantisconnect.php?wsdl")
+        web_config = self.app.config['web']
+        client = Client(f"{web_config['baseUrl']}/api/soap/mantisconnect.php?wsdl")
         projects = client.service.mc_projects_get_user_accessible(soap_config['username'], soap_config['password'])
         projects_list = []
         for project in projects:
